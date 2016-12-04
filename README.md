@@ -50,10 +50,10 @@ Configuration is commented out, but in case your NGINX supports GeoIP you can en
 
 ## Sniffer automatical Banning
 #### Be careful it may ban search engine bots.
-#### Take a look to TO-DO at ban-sniffers.sh script to do reverse IP checks.
-#### Wiping /var/logs/nginx/ban-sniffer.log + ./blacklist-update.sh will reset bans.
-#### Use ./update-robots.sh to add search engine disallows to robots.txt or add it manually
-#### Optionaly u can add honey pot into your website template:
++ Take a look to TO-DO at ban-sniffers.sh script to do reverse IP checks.
++ Wiping /var/logs/nginx/ban-sniffer.log + ./blacklist-update.sh will reset bans.
++ Use ./update-robots.sh to add search engine disallows to robots.txt or add it manually
++ Optionaly u can add honey pot into your website template:
 ```
 <style>#wp-login{dislay:none}</style>
 <a href="/wp-login.php" class="#wp-login" rel="nofollow">CMS Log in</a>
