@@ -17,32 +17,6 @@ wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat
 gunzip -f GeoIP.dat.gz
 
 #
-# Update Antizapret
-#
-LISTIP="${PATHTOREPOSITORY}"/conf.d/block-ip.conf
-cd "${PATHTOREPOSITORY}"/antizapret
-git pull
-cd "${PATHTOREPOSITORY}"
-
-getlist() {
-    cat ./antizapret/"${1}".txt | sed '/^#/ d' | awk 'NF {print $1" 1;"}' >> /tmp/block-ip.conf
-}
-
-cat  "${PATHTOREPOSITORY}"/custom-blocks/ip.txt | sed '/^#/ d' | awk 'NF {print $1" 1;"}' > /tmp/block-ip.conf
-getlist blacklist4
-getlist blacklist6
-
-# write nginx config
-echo '# WARNING! This file was generated. Do not change!' > "${LISTIP}"
-echo 'geo $block_ip {' >> "${LISTIP}"
-echo 'default 0;' >> "${LISTIP}"
-cat /tmp/block-ip.conf | sort | uniq >> "${LISTIP}"
-echo '}' >> "${LISTIP}"
-
-rm /tmp/block-ip.conf
-
-
-#
 # Update bad referers
 #
 cd "${PATHTOREPOSITORY}"/referrer-spam-blacklist
@@ -65,6 +39,31 @@ echo '}' >> "${LISTREFERER}"
 
 rm /tmp/block-referer.conf
 
+
+#
+# Update Bad-IPs DB
+#
+LISTIP="${PATHTOREPOSITORY}"/conf.d/block-ip.conf
+cd "${PATHTOREPOSITORY}"/antizapret
+git pull
+cd "${PATHTOREPOSITORY}"
+
+getlist() {
+    cat ./antizapret/"${1}".txt | sed '/^#/ d' | awk 'NF {print $1" 1;"}' >> /tmp/block-ip.conf
+}
+
+cat  "${PATHTOREPOSITORY}"/custom-blocks/ip.txt | sed '/^#/ d' | awk 'NF {print $1" 1;"}' > /tmp/block-ip.conf
+getlist blacklist4
+getlist blacklist6
+
+# write nginx config
+echo '# WARNING! This file was generated. Do not change!' > "${LISTIP}"
+echo 'geo $block_ip {' >> "${LISTIP}"
+echo 'default 0;' >> "${LISTIP}"
+cat /tmp/block-ip.conf | sort | uniq >> "${LISTIP}"
+echo '}' >> "${LISTIP}"
+
+rm /tmp/block-ip.conf
 
 #
 # Update IBlockList.com
