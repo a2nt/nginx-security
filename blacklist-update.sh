@@ -52,7 +52,8 @@ getlist() {
     cat ./antizapret/"${1}".txt | sed '/^#/ d' | awk 'NF {print $1" 1;"}' >> /tmp/block-ip.conf
 }
 
-cat  "${PATHTOREPOSITORY}"/custom-blocks/ip.txt | sed '/^#/ d' | awk 'NF {print $1" 1;"}' > /tmp/block-ip.conf
+cat  "${PATHTOREPOSITORY}"/custom-blocks/whitelist-ip.txt | sed '/^#/ d' | awk 'NF {print $1" 0;"}' > /tmp/block-ip.conf
+cat  "${PATHTOREPOSITORY}"/custom-blocks/ip.txt | sed '/^#/ d' | awk 'NF {print $1" 1;"}' >> /tmp/block-ip.conf
 getlist blacklist4
 getlist blacklist6
 
