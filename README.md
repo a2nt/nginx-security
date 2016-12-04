@@ -49,6 +49,10 @@ Configuration is commented out, but in case your NGINX supports GeoIP you can en
 + /path/to/repository/frameworks/security.conf
 
 ## Sniffer automatical Banning
+* Be careful it may ban search engine bots.
+* Take a look to TO-DO at ban-sniffers.sh script to do reverse IP checks.
+* Wiping /var/logs/nginx/ban-sniffer.log + ./blacklist-update.sh will reset bans. 
+
 As I said it logs very suspicious sniffers into /var/logs/nginx/ban-sniffer.log
 
 If u will run /path/to/repository/ban-sniffers.sh it will parse /var/logs/nginx/ban-sniffer.log and ban sniffers by IP.
