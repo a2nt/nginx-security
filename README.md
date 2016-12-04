@@ -50,8 +50,11 @@ Configuration is commented out, but in case your NGINX supports GeoIP you can en
 
 ## Sniffer automatical Banning
 As I said it logs very suspicious sniffers into /var/logs/nginx/ban-sniffer.log
+
 If u will run /path/to/repository/ban-sniffers.sh it will parse /var/logs/nginx/ban-sniffer.log and ban sniffers by IP.
+
 Very suspicious sniffers it's snifferes trying to access following URLs:
+
 /wp-login.php
 /xmlrpc.php
 /wp-main.php
@@ -86,5 +89,7 @@ server {
     include /path/to/repository/frameworks/silverstripe.conf;
 }
 ```
+
 [My personal website](https://twma.pro)
+
 [Buy me a Beer](https://www.paypal.me/tonytwma)
