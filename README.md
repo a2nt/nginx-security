@@ -49,16 +49,22 @@ Configuration is commented out, but in case your NGINX supports GeoIP you can en
 + /path/to/repository/frameworks/security.conf
 
 ## Sniffer automatical Banning
-* Be careful it may ban search engine bots.
-* Take a look to TO-DO at ban-sniffers.sh script to do reverse IP checks.
-* Wiping /var/logs/nginx/ban-sniffer.log + ./blacklist-update.sh will reset bans. 
+#### Be careful it may ban search engine bots.
+#### Take a look to TO-DO at ban-sniffers.sh script to do reverse IP checks.
+#### Wiping /var/logs/nginx/ban-sniffer.log + ./blacklist-update.sh will reset bans.
+#### Use ./update-robots.sh to add search engine disallows to robots.txt or add it manually
+#### Optionaly u can add honey pot into your website template:
+```
+<style>#wp-login{dislay:none}</style>
+<a href="/wp-login.php" class="#wp-login" rel="nofollow">CMS Log in</a>
+```
 
 As I said it logs very suspicious sniffers into /var/logs/nginx/ban-sniffer.log
 
 If u will run /path/to/repository/ban-sniffers.sh it will parse /var/logs/nginx/ban-sniffer.log and ban sniffers by IP.
 
 Very suspicious sniffers it's snifferes trying to access following URLs:
-
+```
 /wp-login.php
 /xmlrpc.php
 /wp-main.php
@@ -77,6 +83,7 @@ Very suspicious sniffers it's snifferes trying to access following URLs:
 /malasy.php
 /testproxy.php
 /phpmyadmin
+```
 
 ## Extra SilverStripe Framework configuration example:
 
