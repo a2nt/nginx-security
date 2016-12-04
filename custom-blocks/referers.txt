@@ -1,0 +1,3 @@
+# Custom referers line by line, example:
+# lifehacĸer.com
+# addons.mozilla.org
