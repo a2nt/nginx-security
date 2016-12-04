@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 
+# Updates Black List DBs
 # Required: ipcalc utility to calculate IP ranges
 # At debian based repository can be installed by: apt install ipcalc
 
 # Set your repository path
 PATHTOREPOSITORY=/path/to/repository
-
 # Or get it by working directory (comment it out if u want to specify path manually)
 PATHTOREPOSITORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
