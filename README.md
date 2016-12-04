@@ -5,7 +5,7 @@
 + Blocks Direct access to *.php, *.asp, *.php3, *.php4, *.php5, *.phtml, *.inc and etc files
 + Blocks Bad countries (optionally GeoIP support required)
 + Logs sniffers into /var/logs/nginx/sniffer.log
-+ Logs very suspicious sniffers into /var/logs/nginx/sniffer.log
++ Logs very suspicious sniffers into /var/logs/nginx/ban-sniffer.log
 + Logs blocks into /var/logs/nginx/*.log
 
 
