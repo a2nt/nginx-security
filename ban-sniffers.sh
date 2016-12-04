@@ -15,6 +15,6 @@ echo "}" >> /tmp/block-ip.conf
 cat /tmp/block-ip.conf | uniq > "${LISTIP}"
 
 rm /tmp/block-ip.conf
-rm /var/logs/nginx/ban-sniffer.log
+#rm /var/logs/nginx/ban-sniffer.log
 
 service nginx reload
