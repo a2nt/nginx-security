@@ -48,6 +48,29 @@ Configuration is commented out, but in case your NGINX supports GeoIP you can en
 + /path/to/repository/conf.d/block-country.conf
 + /path/to/repository/frameworks/security.conf
 
+## Sniffer automatical Banning
+As I said it logs very suspicious sniffers into /var/logs/nginx/ban-sniffer.log
+If u will run /path/to/repository/ban-sniffers.sh it will parse /var/logs/nginx/ban-sniffer.log and ban sniffers by IP.
+Very suspicious sniffers it's snifferes trying to access following URLs:
+/wp-login.php
+/xmlrpc.php
+/wp-main.php
+/setup-config.php
+/setup.php
+/settings.php
+/admin.php
+/login.php
+/administrator
+/login.asp
+/personel.asp
+/includes.php
+/configurationbak.php
+/sqlibak.php
+/infos.php
+/malasy.php
+/testproxy.php
+/phpmyadmin
+
 ## Extra SilverStripe Framework configuration example:
 
 Setups SilverStripe production configuration and static files directly serve with cache headers
