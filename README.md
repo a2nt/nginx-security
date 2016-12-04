@@ -21,7 +21,7 @@ Automatically generates NGINX configuration files at ./conf.d/*
 ## Installation
 + Launch ./install.sh from repository path to clone required git repositories
 + Setup PATHTOREPOSITORY variable at ./blacklist-update.sh
-+ Launch ./blacklist-update.sh to generate NGINX configs and update the staff
++ Launch ./blacklist-update.sh to generate NGINX configs and update the staff (add it to crontab to upgrade block lists automatically)
 
 + Modify your nginx.conf to include black lists by adding:
 ```
