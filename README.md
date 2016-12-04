@@ -63,3 +63,5 @@ server {
     include /path/to/repository/frameworks/silverstripe.conf;
 }
 ```
+[My personal website](https://twma.pro)
+[Buy me a Beer](https://www.paypal.me/tonytwma)
