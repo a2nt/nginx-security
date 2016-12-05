@@ -1,8 +1,14 @@
 #!/usr/bin/env sh
 
-# Updates Black List DBs
-# Required: ipcalc utility to calculate IP ranges
-# At debian based repository can be installed by: apt install ipcalc
+#
+# Required:
+# + ipcalc (utility to calculate IP ranges)
+# + wget to download DBs
+#
+# At debian based repository can be installed by:
+# apt install wget
+# apt install ipcalc
+#
 
 # Set your repository path
 PATHTOREPOSITORY=/path/to/repository
@@ -15,6 +21,43 @@ PATHTOREPOSITORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${PATHTOREPOSITORY}"/conf.d/geoip
 wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz
 gunzip -f GeoIP.dat.gz
+
+LISTIP="${PATHTOREPOSITORY}"/conf.d/block-ip.conf
+# Update Antizapret
+cd "${PATHTOREPOSITORY}"/antizapret
+git pull
+cd "${PATHTOREPOSITORY}"
+
+getlist() {
+    cat ./antizapret/"${1}".txt | sed '/^#/ d' | awk 'NF {print $1" 1;"}' >> /tmp/block-ip.conf
+}
+getwhitelist(){
+    wget "${1}" -O /tmp/whitelist.txt
+    cat /tmp/whitelist.txt | sed '/^#/ d' | awk 'NF {print $1"/32 0;"}' | sed '/^\/32 1;/d' >> /tmp/block-ip.conf
+}
+
+cat  "${PATHTOREPOSITORY}"/custom-blocks/whitelist-ip.txt | sed '/^#/ d' | awk 'NF {print $1" 0;"}' > /tmp/block-ip.conf
+cat  "${PATHTOREPOSITORY}"/custom-blocks/ip.txt | sed '/^#/ d' | awk 'NF {print $1" 1;"}' >> /tmp/block-ip.conf
+
+#
+# Antizapret:
+# This guys were offended by Russian Government blocking some websites
+# So they have made a list of RU gov IP ranges to block them before they will be able to block you
+# But actually it won't work if u won't block ranges from "gov + copyright" area
+#
+getlist blacklist4
+getlist blacklist6
+
+
+# write nginx config
+echo '# WARNING! This file was generated. Do not change!' > "${LISTIP}"
+echo 'geo $block_ip {' >> "${LISTIP}"
+echo 'default 0;' >> "${LISTIP}"
+cat /tmp/block-ip.conf | sort | uniq >> "${LISTIP}"
+echo '}' >> "${LISTIP}"
+
+rm /tmp/block-ip.conf
+
 
 #
 # Update bad referers
@@ -39,32 +82,6 @@ echo '}' >> "${LISTREFERER}"
 
 rm /tmp/block-referer.conf
 
-
-#
-# Update Bad-IPs DB
-#
-LISTIP="${PATHTOREPOSITORY}"/conf.d/block-ip.conf
-cd "${PATHTOREPOSITORY}"/antizapret
-git pull
-cd "${PATHTOREPOSITORY}"
-
-getlist() {
-    cat ./antizapret/"${1}".txt | sed '/^#/ d' | awk 'NF {print $1" 1;"}' >> /tmp/block-ip.conf
-}
-
-cat  "${PATHTOREPOSITORY}"/custom-blocks/whitelist-ip.txt | sed '/^#/ d' | awk 'NF {print $1" 0;"}' > /tmp/block-ip.conf
-cat  "${PATHTOREPOSITORY}"/custom-blocks/ip.txt | sed '/^#/ d' | awk 'NF {print $1" 1;"}' >> /tmp/block-ip.conf
-getlist blacklist4
-getlist blacklist6
-
-# write nginx config
-echo '# WARNING! This file was generated. Do not change!' > "${LISTIP}"
-echo 'geo $block_ip {' >> "${LISTIP}"
-echo 'default 0;' >> "${LISTIP}"
-cat /tmp/block-ip.conf | sort | uniq >> "${LISTIP}"
-echo '}' >> "${LISTIP}"
-
-rm /tmp/block-ip.conf
 
 #
 # Update IBlockList.com
@@ -99,7 +116,14 @@ get_blacklist 'http://list.iblocklist.com/?list=czvaehmjpsnwwttrdoyl&fileformat=
 # Spiders
 get_blacklist 'http://list.iblocklist.com/?list=mcvxsnihddgutbjfbghy&fileformat=p2p&archiveformat=gz'
 get_blacklist 'http://list.iblocklist.com/?list=ua&fileformat=p2p&archiveformat=gz'
-# gov + copyright
+
+# gov + copyright:
+# Companies or organizations who are clearly involved with trying to stop filesharing.
+# Companies which anti-p2p activity has been seen from.
+# Companies that produce or have a strong financial interest in copyrighted material.
+# Government ranges or companies that have a strong financial interest in doing work for governments.
+# Legal industry ranges.
+# IPs or ranges of ISPs from which anti-p2p activity has been observed.
 # get_blacklist 'http://list.iblocklist.com/?list=ydxerpxkpcfqjaybcssw&fileformat=p2p&archiveformat=gz'
 
 # write nginx config
